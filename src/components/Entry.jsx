@@ -18,17 +18,24 @@ const validate = values => {
     return errors;
 }
 
-const tagCollection = [
-    { value: "one", label: "One" },
-    { value: "two", label: "Two" },
-    { value: "three", label: "Three" }
+const checkboxes = [
+    {
+      name: '26 - 41 - M/01 Elektrotechnika',
+      key: '26 - 41 - M/01 Elektrotechnika',
+      label: '26 - 41 - M/01 Elektrotechnika',
+    },
+    {
+      name: '23 - 41 - M/01 Strojírenství',
+      key: '23 - 41 - M/01 Strojírenství',
+      label: '23 - 41 - M/01 Strojírenství',
+    },
+    {
+      name: '18 - 20 - M/01 Informační technologie',
+      key: '18 - 20 - M/01 Informační technologie',
+      label: '18 - 20 - M/01 Informační technologie',
+    },
 ];
-
-const schoolCollection = [
-    { value: "one", label: "One" },
-    { value: "two", label: "Two" },
-    { value: "three", label: "Three" }
-];
+  
 
 const Entry = ({data, setData}) => {
     const formik = useFormik({
@@ -38,7 +45,7 @@ const Entry = ({data, setData}) => {
           email: '',
           school: '',
           GDPR: false,
-          exams: false,
+          exam: false,
           info: false,
           branch: []
         },
