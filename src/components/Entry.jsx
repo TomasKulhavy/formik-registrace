@@ -1,5 +1,5 @@
-import { Button, Form, FormGroup, Input, Label, FormFeedback, Card, CardHeader, CardBody, Row } from "reactstrap";
-import { useFormik } from 'formik';
+import { Button, Form, FormGroup, Input, Label, FormFeedback, Card, CardHeader, CardBody, Row, Container } from "reactstrap";
+import { useFormik, FormikProvider, Field } from 'formik';
 
 const validate = values => {
     const errors = {};
@@ -14,28 +14,10 @@ const validate = values => {
     }
     if (values.GDPR === false)
         errors.GDPR = "Potvrďte zpracování údajů";
-
+    if (values.branch == null)
+        errors.branch = "vyberte alespoň jeden obor";
     return errors;
-}
-
-const checkboxes = [
-    {
-      name: '26 - 41 - M/01 Elektrotechnika',
-      key: '26 - 41 - M/01 Elektrotechnika',
-      label: '26 - 41 - M/01 Elektrotechnika',
-    },
-    {
-      name: '23 - 41 - M/01 Strojírenství',
-      key: '23 - 41 - M/01 Strojírenství',
-      label: '23 - 41 - M/01 Strojírenství',
-    },
-    {
-      name: '18 - 20 - M/01 Informační technologie',
-      key: '18 - 20 - M/01 Informační technologie',
-      label: '18 - 20 - M/01 Informační technologie',
-    },
-];
-  
+}  
 
 const Entry = ({data, setData}) => {
     const formik = useFormik({
@@ -47,7 +29,7 @@ const Entry = ({data, setData}) => {
           GDPR: false,
           exam: false,
           info: false,
-          branch: []
+          branch: [],
         },
         validate: validate,
         onSubmit: values => {
@@ -57,175 +39,176 @@ const Entry = ({data, setData}) => {
 
     console.log(formik);
     return (
-        <>
-            <Card className="m-2 text-center">
-                <CardHeader className="text-light bg-dark"><h5>Soboty s technikou</h5></CardHeader>
-                <CardBody className="text-center bg-dark text-light">
-                    <Form onSubmit={formik.handleSubmit}>
-                        <FormGroup className="m-2">
-                            <Label for="firstname">Jméno</Label>
-                            <Input 
-                                name="firstname" 
-                                id="firstname" 
-                                placeholder="Jan" 
-                                onChange={formik.handleChange} 
-                                onBlur={formik.handleBlur}
-                                value={formik.values.firstname}
-                                invalid={Boolean(formik.errors.firstname)} 
-                                valid={formik.touched.firstname} 
-                            />
-                            {formik.errors.firstname ? <FormFeedback invalid>{formik.errors.firstname}</FormFeedback> : null}
-                        </FormGroup>
-                        <FormGroup className="m-2">
-                            <Label for="lastname">Přijímení</Label>
-                            <Input 
-                                name="lastname" 
-                                id="lastname" 
-                                placeholder="Novák" 
-                                onChange={formik.handleChange} 
-                                onBlur={formik.handleBlur}
-                                value={formik.values.lastname}
-                                invalid={Boolean(formik.errors.lastname)} 
-                                valid={formik.touched.lastname} 
-                            />
-                            {formik.errors.lastname ? <FormFeedback invalid>{formik.errors.lastname}</FormFeedback> : null}
-                        </FormGroup>
-                        <FormGroup className="m-2">
-                            <Label for="email">E-mail</Label>
-                            <Input 
-                                type="email" 
-                                name="email" 
-                                id="email" 
-                                placeholder="jan.novák@gmail.com" 
-                                onChange={formik.handleChange} 
-                                onBlur={formik.handleBlur}
-                                value={formik.values.email} 
-                                invalid={Boolean(formik.errors.email)} 
-                                valid={formik.touched.email}
-                            />
-                            {formik.errors.email ? <FormFeedback invalid>{formik.errors.email}</FormFeedback> : null}
-                        </FormGroup>
-                        <FormGroup>
-                            <Label>Vyberte vaši školu (Nepovinné)</Label>
-                            <Input
-                                name="school"
-                                type="select"
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.school}
-                            >
-                                <option value="">Vyberte svou školu...</option>
-                                <option value="Základní škola s rozšířenou výukou jazyků, Liberec, Husova 142/44, příspěvková organizace">Základní škola s rozšířenou výukou jazyků, Liberec, Husova 142/44, příspěvková organizace</option>
-                                <option value="Základní škola, Liberec, Aloisina výšina 642, příspěvková organizace">Základní škola, Liberec, Aloisina výšina 642, příspěvková organizace</option>
-                                <option value="Základní škola, Liberec, Dobiášova 851/5, příspěvková organizace">Základní škola, Liberec, Dobiášova 851/5, příspěvková organizace</option>
-                                <option value="Základní škola, Liberec, Oblačná 101/15, příspěvková organizace">Základní škola, Liberec, Oblačná 101/15, příspěvková organizace</option>
-                                <option value="Základní škola, Liberec, Kaplického 384, příspěvková organizace">Základní škola, Liberec, Kaplického 384, příspěvková organizace</option>
-                            </Input>
-                            {formik.errors.school ? <FormFeedback invalid>{formik.errors.school}</FormFeedback> : null}
-                        </FormGroup>
-                        <FormGroup className="m-2" check>
-                            <Label check>
+        <Container>
+            <div className="mx-auto d-flex justify-content-center">
+                <FormikProvider value={formik}>
+                    <Card className="m-2 text-center">
+                        <CardHeader className="text-light bg-dark"><h5>Soboty s technikou</h5></CardHeader>
+                        <CardBody className="text-center bg-dark text-light">
+                        <Form onSubmit={formik.handleSubmit}>
+                            <FormGroup className="m-2">
+                                <Label for="firstname">Jméno</Label>
                                 <Input 
-                                    id="GDPR"
-                                    name="GDPR"
-                                    type="checkbox" 
+                                    name="firstname" 
+                                    id="firstname" 
+                                    placeholder="Jan" 
                                     onChange={formik.handleChange} 
                                     onBlur={formik.handleBlur}
-                                    checked={formik.values.GDPR} 
-                                    invalid={Boolean(formik.errors.GDPR)} 
-                                    valid={formik.touched.GDPR}
-                                />{' '}
-                                GDPR
-                                {formik.errors.GDPR ? <FormFeedback invalid>{formik.errors.GDPR}</FormFeedback> : null}
-                            </Label>
-                        </FormGroup>
-                        <FormGroup className="m-2" check>
-                            <Label check>
+                                    value={formik.values.firstname}
+                                    invalid={Boolean(formik.errors.firstname)} 
+                                    valid={formik.touched.firstname} 
+                                />
+                                {formik.errors.firstname ? <FormFeedback invalid>{formik.errors.firstname}</FormFeedback> : null}
+                            </FormGroup>
+                            <FormGroup className="m-2">
+                                <Label for="lastname">Přijímení</Label>
                                 <Input 
-                                    id="exam"
-                                    name="exam"
-                                    type="checkbox" 
+                                    name="lastname" 
+                                    id="lastname" 
+                                    placeholder="Novák" 
                                     onChange={formik.handleChange} 
                                     onBlur={formik.handleBlur}
-                                    checked={formik.values.exam} 
-                                    invalid={Boolean(formik.errors.exam)} 
-                                    valid={formik.touched.exam}
-                                />{' '}
-                                Chci být přidán do seznamu pro informování o přijímacím řízení (Nepovinné)
-                            </Label>
-                        </FormGroup>
-                        <FormGroup className="m-2" check>
-                            <Label check>
+                                    value={formik.values.lastname}
+                                    invalid={Boolean(formik.errors.lastname)} 
+                                    valid={formik.touched.lastname} 
+                                />
+                                {formik.errors.lastname ? <FormFeedback invalid>{formik.errors.lastname}</FormFeedback> : null}
+                            </FormGroup>
+                            <FormGroup className="m-2">
+                                <Label for="email">E-mail</Label>
                                 <Input 
-                                    id="info"
-                                    name="info"
-                                    type="checkbox" 
+                                    type="email" 
+                                    name="email" 
+                                    id="email" 
+                                    placeholder="jan.novák@gmail.com" 
                                     onChange={formik.handleChange} 
                                     onBlur={formik.handleBlur}
-                                    checked={formik.values.info} 
-                                    invalid={Boolean(formik.errors.info)} 
-                                    valid={formik.touched.info}
-                                />{' '}
-                                Chci být informován o Sobotách s technikou (Nepovinné)
-                            </Label>
-                        </FormGroup>
-                        <FormGroup>
-                            <Row>
-                                <Label>Vyberte si obor/obory, o které máte zájem</Label>
-                            </Row>
-                            <Row>
+                                    value={formik.values.email} 
+                                    invalid={Boolean(formik.errors.email)} 
+                                    valid={formik.touched.email}
+                                />
+                                {formik.errors.email ? <FormFeedback invalid>{formik.errors.email}</FormFeedback> : null}
+                            </FormGroup>
+                            <FormGroup>
+                                <Label>Vyberte vaši školu (Nepovinné)</Label>
+                                <Input
+                                    name="school"
+                                    type="select"
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.school}
+                                >
+                                    <option value="">Vyberte svou školu...</option>
+                                    <option value="Základní škola s rozšířenou výukou jazyků, Liberec, Husova 142/44, příspěvková organizace">Základní škola s rozšířenou výukou jazyků, Liberec, Husova 142/44, příspěvková organizace</option>
+                                    <option value="Základní škola, Liberec, Aloisina výšina 642, příspěvková organizace">Základní škola, Liberec, Aloisina výšina 642, příspěvková organizace</option>
+                                    <option value="Základní škola, Liberec, Dobiášova 851/5, příspěvková organizace">Základní škola, Liberec, Dobiášova 851/5, příspěvková organizace</option>
+                                    <option value="Základní škola, Liberec, Oblačná 101/15, příspěvková organizace">Základní škola, Liberec, Oblačná 101/15, příspěvková organizace</option>
+                                    <option value="Základní škola, Liberec, Kaplického 384, příspěvková organizace">Základní škola, Liberec, Kaplického 384, příspěvková organizace</option>
+                                </Input>
+                                {formik.errors.school ? <FormFeedback invalid>{formik.errors.school}</FormFeedback> : null}
+                            </FormGroup>
+                            <FormGroup className="m-2" check>
                                 <Label check>
                                     <Input 
-                                        id="branch"
-                                        name="branch"
+                                        id="GDPR"
+                                        name="GDPR"
                                         type="checkbox" 
                                         onChange={formik.handleChange} 
                                         onBlur={formik.handleBlur}
-                                        checked={formik.values.branch} 
-                                        invalid={Boolean(formik.errors.branch)} 
-                                        valid={formik.touched.branch}
+                                        checked={formik.values.GDPR} 
+                                        invalid={Boolean(formik.errors.GDPR)} 
+                                        valid={formik.touched.GDPR}
                                     />{' '}
-                                    26 - 41 - M/01 Elektrotechnika
+                                    GDPR
+                                    {formik.errors.GDPR ? <FormFeedback invalid>{formik.errors.GDPR}</FormFeedback> : null}
                                 </Label>
-                            </Row>
-                            <Row>
+                            </FormGroup>
+                            <FormGroup className="m-2">
                                 <Label check>
                                     <Input 
-                                        id="branch"
-                                        name="branch"
+                                        id="exam"
+                                        name="exam"
                                         type="checkbox" 
                                         onChange={formik.handleChange} 
                                         onBlur={formik.handleBlur}
-                                        checked={formik.values.branch} 
-                                        invalid={Boolean(formik.errors.branch)} 
-                                        valid={formik.touched.branch}
+                                        checked={formik.values.exam} 
+                                        invalid={Boolean(formik.errors.exam)} 
+                                        valid={formik.touched.exam}
                                     />{' '}
-                                    23 - 41 - M/01 Strojírenství
+                                    Chci být přidán do seznamu pro informování o přijímacím řízení (Nepovinné)
                                 </Label>
-                            </Row>
-                            <Row>
+                            </FormGroup>
+                            <FormGroup className="m-2">
                                 <Label check>
                                     <Input 
-                                        id="branch"
-                                        name="branch"
+                                        id="info"
+                                        name="info"
                                         type="checkbox" 
                                         onChange={formik.handleChange} 
                                         onBlur={formik.handleBlur}
-                                        checked={formik.values.branch} 
-                                        invalid={Boolean(formik.errors.branch)} 
-                                        valid={formik.touched.branch}
+                                        checked={formik.values.info} 
+                                        invalid={Boolean(formik.errors.info)} 
+                                        valid={formik.touched.info}
                                     />{' '}
-                                    18 - 20 - M/01 Informační technologie
+                                    Chci být informován o Sobotách s technikou (Nepovinné)
                                 </Label>
-                            </Row>
-                        </FormGroup>
-                        <div>
-                            <Button type="submit" className="m-2" color="success">Odeslat</Button>
-                        </div>
-                    </Form>
-                </CardBody>
-            </Card>
-        </>
+                            </FormGroup>
+                            <FormGroup className="m-2">
+                                <Label>Vyberte si obor/obory, o které máte zájem:</Label>
+                                <Row className="mt-2">
+                                    <Label className="col">
+                                        <Field 
+                                            id="branch"
+                                            name="branch"
+                                            type="checkbox" 
+                                            onChange={formik.handleChange} 
+                                            onBlur={formik.handleBlur}
+                                            value={"26 - 41 - M/01 Elektrotechnika"} 
+                                            invalid={Boolean(formik.errors.branch)} 
+                                            valid={formik.touched.branch}
+                                        />{' '}
+                                        26 - 41 - M/01 Elektrotechnika
+                                        {formik.errors.branch ? <FormFeedback invalid>{formik.errors.branch}</FormFeedback> : null}
+                                    </Label>
+                                    <Label className="col">
+                                        <Field 
+                                            id="branch"
+                                            name="branch"
+                                            type="checkbox" 
+                                            onChange={formik.handleChange} 
+                                            onBlur={formik.handleBlur}
+                                            value={"23 - 41 - M/01 Strojírenství"} 
+                                            invalid={Boolean(formik.errors.branch)} 
+                                            valid={formik.touched.branch}
+                                        />{' '}
+                                        23 - 41 - M/01 Strojírenství
+                                        {formik.errors.branch ? <FormFeedback invalid>{formik.errors.branch}</FormFeedback> : null}
+                                    </Label>
+                                    <Label className="col">
+                                        <Field 
+                                            id="branch"
+                                            name="branch"
+                                            type="checkbox" 
+                                            onChange={formik.handleChange} 
+                                            onBlur={formik.handleBlur}
+                                            value={"18 - 20 - M/01 Informační technologie"} 
+                                            invalid={Boolean(formik.errors.branch)} 
+                                            valid={formik.touched.branch}
+                                        />{' '}
+                                        18 - 20 - M/01 Informační technologie
+                                        {formik.errors.branch ? <FormFeedback invalid>{formik.errors.branch}</FormFeedback> : null}
+                                    </Label>
+                                </Row>
+                            </FormGroup>
+                            <div>
+                                <Button type="submit" className="m-2" color="success">Odeslat</Button>
+                            </div>
+                        </Form>
+                    </CardBody>
+                    </Card>
+                </FormikProvider>
+            </div>
+        </Container>
     )
 }
 
