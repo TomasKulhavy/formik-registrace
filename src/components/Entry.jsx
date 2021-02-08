@@ -9,13 +9,14 @@ const validate = values => {
         errors.lastname = "Příjmení musí být vyplněno";
     if (!values.email) {
         errors.email = "E-mail musí být vyplněn";
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    } 
+    else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
         errors.email = "Neplatná e-mailová adresa!";
     }
     if (values.GDPR === false)
         errors.GDPR = "Potvrďte zpracování údajů";
     if (values.branch == null)
-        errors.branch = "vyberte alespoň jeden obor";
+        errors.branch = "Vyberte alespoň jeden obor";
     return errors;
 }  
 
@@ -155,6 +156,7 @@ const Entry = ({data, setData}) => {
                             </FormGroup>
                             <FormGroup className="m-2">
                                 <Label>Vyberte si obor/obory, o které máte zájem:</Label>
+                                {formik.errors.branch ? <FormFeedback invalid>{formik.errors.branch}</FormFeedback> : null}
                                 <Row className="mt-2">
                                     <Label className="col">
                                         <Field 
@@ -168,7 +170,6 @@ const Entry = ({data, setData}) => {
                                             valid={formik.touched.branch}
                                         />{' '}
                                         26 - 41 - M/01 Elektrotechnika
-                                        {formik.errors.branch ? <FormFeedback invalid>{formik.errors.branch}</FormFeedback> : null}
                                     </Label>
                                     <Label className="col">
                                         <Field 
@@ -182,7 +183,6 @@ const Entry = ({data, setData}) => {
                                             valid={formik.touched.branch}
                                         />{' '}
                                         23 - 41 - M/01 Strojírenství
-                                        {formik.errors.branch ? <FormFeedback invalid>{formik.errors.branch}</FormFeedback> : null}
                                     </Label>
                                     <Label className="col">
                                         <Field 
@@ -196,7 +196,6 @@ const Entry = ({data, setData}) => {
                                             valid={formik.touched.branch}
                                         />{' '}
                                         18 - 20 - M/01 Informační technologie
-                                        {formik.errors.branch ? <FormFeedback invalid>{formik.errors.branch}</FormFeedback> : null}
                                     </Label>
                                 </Row>
                             </FormGroup>
